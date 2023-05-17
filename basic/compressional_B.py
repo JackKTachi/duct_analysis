@@ -29,9 +29,9 @@ def compressional_B(tr):
 
     for i in range(data_200s_x.size):
         bvec = [data_200s_x[i], data_200s_y[i], data_200s_z[i]]
-        zz = [0, 0, 1]
+        zz = [0, 0, -1]
 
-        yhat = np.cross(zz, bvec) # in dsi coordinate, z-axis is roughly anti-sunward
+        yhat = np.cross(bvec, zz) # in dsi coordinate, z-axis is roughly anti-sunward
         xhat = np.cross(yhat, bvec) # right-handed orthogonal coordinate system
         zhat = bvec
 
@@ -63,7 +63,7 @@ def compressional_B(tr):
     delta_z = np.zeros(data_rot_8sec[:,0].size)
 
     for i in range(data_rot_8sec[:,0].size):
-        delta_z[i] = data_rot_200s[i,2] - data_rot_8sec[i,2]
+        delta_z[i] = data_rot_8sec[i,2] -data_rot_200s[i,2]
 
     data_rot_8sec_xy = np.zeros((data_rot_8sec[:,0].size, 2))
     for i in range(data_rot_8sec[:,0].size):
