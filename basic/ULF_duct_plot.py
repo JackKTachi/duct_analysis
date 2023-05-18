@@ -5,7 +5,7 @@ import numpy as np
 import each_eV_plot_mepe as eep
 import compressional_B as cb
 
-def ULF_duct_load(download_trange):
+def ULF_duct_load(download_trange): 
         
     from pyspedas.erg import pwe_ofa
     pwe_ofa(trange=download_trange)
@@ -23,6 +23,8 @@ def ULF_duct_load(download_trange):
 
     from pyspedas.erg import orb
     orb(trange=download_trange)
+
+    
 
     
     return 'kvec_polar_132',\
@@ -45,7 +47,7 @@ def ULF_duct_plot(ofa_B,ofa_E,mepe_50,delta_z,magt,magxy,orb_rmlatmlt, plot_tran
     pytplot.tplot( [ofa_B,ofa_E,mepe_50,delta_z,magt,magxy], var_label=labels, xsize=10, ysize=10)
 
 
-def ULF_duct_plot_12to50(wna,ofa_B,ofa_E,mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy,orb_rmlatmlt, plot_trange):
+def ULF_duct_plot_12to50(wna,ofa_B,ofa_E,mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy,orb_rmlatmlt, plot_trange, download_trange=None):
     
     pytplot.options(wna, opt_dict={'ytitle':'wna','ysubtitle':'[kHz]','ylog':1, 'spec':1})
 
@@ -58,7 +60,32 @@ def ULF_duct_plot_12to50(wna,ofa_B,ofa_E,mepe_50, mepe_42, mepe_35, mepe_24, mep
     pytplot.options( 'erg_orb_l2_pos_rmlatmlt_z', 'ytitle', 'MLT [h]' )
     pytplot.xlim( plot_trange[0], plot_trange[1] )
 
-    pytplot.tplot( [wna,ofa_B,ofa_E,mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy], var_label=labels, xsize=10, ysize=20)
+    if download_trange is not None:
+        from pyspedas.erg import mgf
+        mgf(trange=download_trange)
+
+        import plasma_params as pp
+        import numpy as np
+        data = pytplot.data_quants['erg_mgf_l2_magt_8sec']
+        fce1 = np.zeros(data['time'].size)
+        fce2 = np.zeros(data['time'].size)
+        for i in range(data['time'].size):
+            fce2[i] = pp.Q*data[i]/pp.ME/1e9/2/np.pi/1e3*0.2
+            fce1[i] = pp.Q*data[i]/pp.ME/1e9/2/np.pi/1e3*0.1
+
+        pytplot.store_data('fce2', data={'x': data['time'], 'y': fce2})
+        pytplot.store_data('fce1', data={'x': data['time'], 'y': fce1})
+        pytplot.options('fce2', opt_dict={'ytitle': 'fce2 [kHz]', 'ylog': 1, 'line_style': '-', 'Color': 'darkblue', 'thick': 1, 'alpha':1})
+        pytplot.options('fce1', opt_dict={'ytitle': 'fce1 [kHz]', 'ylog': 1, 'line_style': '--', 'Color': 'black', 'thick': 1, 'alpha':1})
+
+        pytplot.store_data('ofa_B_fce', data=[ofa_B,'fce1','fce2'])
+        pytplot.store_data('ofa_E_fce', data=[ofa_E,'fce1','fce2'])
+        pytplot.store_data('kvec', data= [wna, 'fce1','fce2'])
+
+        pytplot.tplot( ['kvec','ofa_B_fce','ofa_E_fce',mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy], var_label=labels, xsize=10, ysize=20)        
+
+    else:
+        pytplot.tplot( [wna,ofa_B,ofa_E,mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy], var_label=labels, xsize=10, ysize=20)
 
 
 
