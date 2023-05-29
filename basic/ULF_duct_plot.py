@@ -23,13 +23,10 @@ def ULF_duct_load(download_trange):
 
     from pyspedas.erg import orb
     orb(trange=download_trange)
-
-    
-
     
     return 'kvec_polar_132',\
         'erg_pwe_ofa_l2_spec_B_spectra_132','erg_pwe_ofa_l2_spec_E_spectra_132',\
-        'erg_mepe_l3_pa_FEDU_50.3keV', 'erg_mepe_l3_pa_FEDU_42.0keV','erg_mepe_l3_pa_FEDU_35.0keV','erg_mepe_l3_pa_FEDU_29.3keV','erg_mepe_l3_pa_FEDU_24.5keV','erg_mepe_l3_pa_FEDU_20.5keV','erg_mepe_l3_pa_FEDU_17.1keV','erg_mepe_l3_pa_FEDU_14.3keV','erg_mepe_l3_pa_FEDU_12.0keV',\
+        'erg_mepe_l3_pa_FEDU_87.5keV', 'erg_mepe_l3_pa_FEDU_72.6keV', 'erg_mepe_l3_pa_FEDU_60.4keV','erg_mepe_l3_pa_FEDU_50.3keV', 'erg_mepe_l3_pa_FEDU_42.0keV','erg_mepe_l3_pa_FEDU_35.0keV','erg_mepe_l3_pa_FEDU_29.3keV','erg_mepe_l3_pa_FEDU_24.5keV','erg_mepe_l3_pa_FEDU_20.5keV','erg_mepe_l3_pa_FEDU_17.1keV','erg_mepe_l3_pa_FEDU_14.3keV','erg_mepe_l3_pa_FEDU_12.0keV',\
             'delta_z', 'erg_mgf_l2_magt_8sec','erg_mgf_l2_mag_8sec_MAF_x&y',\
             'erg_orb_l2_pos_rmlatmlt','erg_orb_l2_pos_eq'
             
@@ -47,7 +44,7 @@ def ULF_duct_plot(ofa_B,ofa_E,mepe_50,delta_z,magt,magxy,orb_rmlatmlt, plot_tran
     pytplot.tplot( [ofa_B,ofa_E,mepe_50,delta_z,magt,magxy], var_label=labels, xsize=10, ysize=10)
 
 
-def ULF_duct_plot_12to50(wna,ofa_B,ofa_E,mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy,orb_rmlatmlt, plot_trange, download_trange=None):
+def ULF_duct_plot_12to50(wna,ofa_B,ofa_E,mepe87, mepe72, mepe60,mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy,orb_rmlatmlt, plot_trange, download_trange=None):
     
     pytplot.options(wna, opt_dict={'ytitle':'wna','ysubtitle':'[kHz]','ylog':1, 'spec':1})
 
@@ -75,17 +72,22 @@ def ULF_duct_plot_12to50(wna,ofa_B,ofa_E,mepe_50, mepe_42, mepe_35, mepe_24, mep
 
         pytplot.store_data('fce2', data={'x': data['time'], 'y': fce2})
         pytplot.store_data('fce1', data={'x': data['time'], 'y': fce1})
-        pytplot.options('fce2', opt_dict={'ytitle': 'fce2 [kHz]', 'ylog': 1, 'line_style': '-', 'Color': 'darkblue', 'thick': 1, 'alpha':1})
-        pytplot.options('fce1', opt_dict={'ytitle': 'fce1 [kHz]', 'ylog': 1, 'line_style': '--', 'Color': 'black', 'thick': 1, 'alpha':1})
+        pytplot.options('fce2', opt_dict={'ytitle':'ofa-B','ytitle': 'fce2 [kHz]', 'yrange':[1e-1, 3e-0],'ylog': 1, 'line_style': '-', 'Color': 'darkblue', 'thick': 1, 'alpha':1})
+        pytplot.options('fce1', opt_dict={'ytitle': 'fce1 [kHz]', 'ylog': 1, 'yrange':[1e-1, 3e-0],'line_style': '--', 'Color': 'black', 'thick': 1, 'alpha':1})
 
         pytplot.store_data('ofa_B_fce', data=[ofa_B,'fce1','fce2'])
-        pytplot.store_data('ofa_E_fce', data=[ofa_E,'fce1','fce2'])
-        pytplot.store_data('kvec', data= [wna, 'fce1','fce2'])
+        #pytplot.store_data('ofa_E_fce', data=[ofa_E,'fce1','fce2'])
+        #pytplot.store_data('kvec', data= [wna, 'fce1','fce2'])
+        pytplot.options('ofa_B_fce', opt_dict={'yrange':[1e-1, 3e-0]})
 
-        pytplot.tplot( ['kvec','ofa_B_fce','ofa_E_fce',mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy], var_label=labels, xsize=10, ysize=20)        
+        from pyspedas.erg import pwe_hfa
+        pwe_hfa(trange=download_trange)
+        pytplot.options('erg_pwe_hfa_l2_low_spectra_esum', opt_dict={'ytitle':'HFA-esum',})
+
+        pytplot.tplot( [wna,'ofa_B_fce',ofa_E,mepe87, mepe72, mepe60,mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy,'erg_pwe_hfa_l2_low_spectra_esum'], var_label=labels, xsize=10, ysize=25)        
 
     else:
-        pytplot.tplot( [wna,ofa_B,ofa_E,mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy], var_label=labels, xsize=10, ysize=20)
+        pytplot.tplot( [wna,ofa_B,ofa_E,mepe87, mepe72, mepe60,mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy], var_label=labels, xsize=10, ysize=20)
 
 
 
