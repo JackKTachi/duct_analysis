@@ -94,3 +94,4 @@ def ULF_duct_plot_12to50(wna,ofa_B,ofa_E,omniflux,mepe87, mepe72, mepe60,mepe_50
 
     else:
         pytplot.tplot( [wna,ofa_B,ofa_E,omniflux,mepe87, mepe72, mepe60,mepe_50, mepe_42, mepe_35, mepe_24, mepe_12,delta_z,magt,magxy], var_label=labels, xsize=10, ysize=25)
+        
