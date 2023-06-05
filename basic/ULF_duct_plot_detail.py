@@ -67,6 +67,17 @@ def plot_B_int_z_xy(ofa_B, integral, z, xy, orb_rmlatmlt, plot_trange):
     pytplot.tplot( [ofa_B,integral,z,xy], var_label=labels, xsize=10, ysize=15)        
 
 
+def plot_B_int_density(ofa_B,density, integral, z, xy, orb_rmlatmlt, plot_trange):
+
+    pytplot.options(ofa_B, opt_dict={'ytitle':'ofa-B','ysubtitle':'[kHz]','ylog':1, 'zlog':1, 'spec':1})
+    pytplot.options(integral, opt_dict={'ytitle':'integral','ylog':1})
+    labels = pytplot.split_vec( orb_rmlatmlt )
+    pytplot.options( 'erg_orb_l2_pos_rmlatmlt_x', opt_dict={'ytitle':'L [Re]','ytitle_location':'left'} )
+    pytplot.options( 'erg_orb_l2_pos_rmlatmlt_y', 'ytitle', 'MLat [deg]' )
+    pytplot.options( 'erg_orb_l2_pos_rmlatmlt_z', 'ytitle', 'MLT [h]' )
+    pytplot.xlim( plot_trange[0], plot_trange[1] )
+
+    pytplot.tplot( [ofa_B,density,integral,z,xy], var_label=labels, xsize=10, ysize=15)  
 
 
 
