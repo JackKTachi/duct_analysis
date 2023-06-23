@@ -78,7 +78,7 @@ def compressional_B(tr):
     for i in range(B_MFA_z.size):
         idx1 = np.arange(i-average_spin//2, i+average_spin//2+1).astype(int)
         idx1 = np.clip(idx1, 0, B_MFA_z.size-1)
-        delta_B[i] = np.sum(B_MFA_z[idx1]) / average_spin - B_MFA_z[i]
+        delta_B[i] =  B_MFA_z[i] - np.sum(B_MFA_z[idx1]) / average_spin
 
     B_MFA_x = pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_x_intpl'] * (np.cos(gamma) * pytplot.data_quants['cos_th_intpl'] * pytplot.data_quants['cos_ph_intpl'] + np.sin(gamma) * pytplot.data_quants['sin_ph_intpl']) + pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_y_intpl'] * (np.cos(gamma) * pytplot.data_quants['cos_th_intpl'] * pytplot.data_quants['sin_ph_intpl'] - np.sin(gamma) * pytplot.data_quants['cos_ph_intpl']) - pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_z_intpl'] * np.cos(gamma) * pytplot.data_quants['sin_th_intpl']
     B_MFA_y = pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_x_intpl'] * (np.sin(gamma) * pytplot.data_quants['cos_th_intpl'] * pytplot.data_quants['cos_ph_intpl'] - np.cos(gamma) * pytplot.data_quants['sin_ph_intpl']) + pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_y_intpl'] * (np.sin(gamma) * pytplot.data_quants['cos_th_intpl'] * pytplot.data_quants['sin_ph_intpl'] + np.cos(gamma) * pytplot.data_quants['cos_ph_intpl']) - pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_z_intpl'] * np.sin(gamma) * pytplot.data_quants['sin_th_intpl']

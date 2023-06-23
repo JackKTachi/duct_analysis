@@ -149,7 +149,7 @@ def calc_stokes(download_trange, ptr):
     pytplot.options('erg_pwe_hfa_l2_spectra_e_mix', opt_dict={'ytitle': 'e-spectra', 'ysubtitle': '[kHz]', 'ylog':1, 'yrange':[20, 100], 'spec':1})
 
     pytplot.store_data('st_Q/I_spec_log0', data={'x': data_I['time'], 'y': data_Q, 'v': data_I['v_dim']})
-    pytplot.options('st_Q/I_spec_log0', opt_dict={'ytitle': 'st_Q/I', 'ysubtitle': '[kHz]', 'ztitle':'', 'ylog':0,'yrange':[0, 20], 'spec':1,'zrange':[-1, 1], 'Colormap': 'RdBu'})
+    pytplot.options('st_Q/I_spec_log0', opt_dict={'ytitle': 'st_Q/I', 'ysubtitle': '[kHz]', 'ztitle':'', 'ylog':0,'yrange':[2, 7], 'spec':1,'zrange':[-1, 1], 'Colormap': 'RdBu'})
 
     pytplot.ylim( 'erg_pwe_hfa_l2_high_spectra_e_mix', 20, 100)
     """ pytplot.ylim( 'fce', 0.064, 20.0)

@@ -106,7 +106,7 @@ def integral_chorus_spec(download_trange,r1, min, max):
             data[i] += pytplot.data_quants['erg_pwe_ofa_l2_spec_B_spectra_132'][i][j]*pytplot.data_quants['erg_pwe_ofa_l2_spec_B_spectra_132']['spec_bins'][j]
     import numpy as np
     import pytplot
-    average_spin1 = 24
+    average_spin1 = 8
     data_int1 = np.zeros(data.size)
     for i in range(data.size):
         idx1 = np.arange(i-average_spin1//2, i+average_spin1//2+1).astype(int)
