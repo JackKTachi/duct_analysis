@@ -22,7 +22,8 @@ def ULF_duct_load(download_trange):
     #pytplot.cdf_to_tplot('./erg_data/satellite/erg/pwe/ofa/l3/property/2017/03/erg_pwe_ofa_l3_property_dsi_20170329_v01_03.cdf')
     # 2017Mar30 is the file of v01_04, others are v01_03
 
-    'delta_z', 'erg_mgf_l2_mag_8sec_MAF_x&y', 'erg_mgf_l2_magt_8sec' == cb.compressional_B(download_trange)
+    'B_perp_para', 'B1_total', 'delta_z', 'delta_xy', 'ULF_wna', 'erg_mgf_l2_magt_8sec', 'cos_th_intpl' == cb.ULFwna(download_trange)
+    #'delta_z', 'erg_mgf_l2_mag_8sec_MAF_x&y', 'erg_mgf_l2_magt_8sec' == cb.ULFwna(download_trange)
 
     from pyspedas.erg import mepe
     mepe(trange=download_trange)
@@ -35,7 +36,7 @@ def ULF_duct_load(download_trange):
         'erg_pwe_ofa_l2_spec_B_spectra_132','erg_pwe_ofa_l2_spec_E_spectra_132',\
         'erg_mepe_l2_omniflux_FEDO',\
         'erg_mepe_l3_pa_FEDU_87.5keV', 'erg_mepe_l3_pa_FEDU_72.6keV', 'erg_mepe_l3_pa_FEDU_60.4keV','erg_mepe_l3_pa_FEDU_50.3keV', 'erg_mepe_l3_pa_FEDU_42.0keV','erg_mepe_l3_pa_FEDU_35.0keV','erg_mepe_l3_pa_FEDU_29.3keV','erg_mepe_l3_pa_FEDU_24.5keV','erg_mepe_l3_pa_FEDU_20.5keV','erg_mepe_l3_pa_FEDU_17.1keV','erg_mepe_l3_pa_FEDU_14.3keV','erg_mepe_l3_pa_FEDU_12.0keV',\
-            'delta_z', 'erg_mgf_l2_magt_8sec','erg_mgf_l2_mag_8sec_MAF_x&y',\
+            'B_perp_para', 'B1_total', 'delta_z', 'delta_xy', 'ULF_wna', 'erg_mgf_l2_magt_8sec',\
             'erg_orb_l2_pos_rmlatmlt','erg_orb_l2_pos_eq'
 
 def ULF_evensearch_load(download_trange): 
