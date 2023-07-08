@@ -49,7 +49,7 @@ def mask_data(ofa_B, wna_input, pT2perHz):
     wna_masked = pytplot.data_quants['wna_mask']
     data_wna = wna_masked.assign_coords(new_coords)
     pytplot.store_data('wna_mask_add', data={'x': data_wna['time'], 'y': data_wna, 'v': data_wna['v_dim']})
-    pytplot.options('wna_mask_add', opt_dict={'ylog': True, 'zrange': [0,90], 'spec': True,  'yrange': [0.064, 20], 'ztitle': '[degree]', 'ytitle': 'WNA', 'ysubtitle': '[kHz]'})
+    pytplot.options('wna_mask_add', opt_dict={'ylog': True, 'zrange': [0,20], 'spec': True,  'yrange': [0.064, 20], 'ztitle': '[degree]', 'ytitle': 'WNA', 'ysubtitle': '[kHz]'})
 
     return 'B_mask_add', 'wna_mask_add'
 
