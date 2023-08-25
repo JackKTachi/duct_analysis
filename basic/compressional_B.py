@@ -74,11 +74,13 @@ def compressional_B(tr):
     B_MFA_z = pytplot.data_quants['sin_th_intpl'] * pytplot.data_quants['cos_ph_intpl'] * pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_x_intpl'] + pytplot.data_quants['sin_th_intpl'] * pytplot.data_quants['sin_ph_intpl'] * pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_y_intpl'] + pytplot.data_quants['cos_th_intpl'] * pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_z_intpl']
 
     delta_B = np.zeros(B_MFA_z.size)
+    Bzero = np.zeros(B_MFA_z.size)
 
     for i in range(B_MFA_z.size):
         idx1 = np.arange(i-average_spin//2, i+average_spin//2+1).astype(int)
         idx1 = np.clip(idx1, 0, B_MFA_z.size-1)
         delta_B[i] =  B_MFA_z[i] - np.sum(B_MFA_z[idx1]) / average_spin
+        Bzero[i] = np.sum(B_MFA_z[idx1]) / average_spin
 
     B_MFA_x = pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_x_intpl'] * (np.cos(gamma) * pytplot.data_quants['cos_th_intpl'] * pytplot.data_quants['cos_ph_intpl'] + np.sin(gamma) * pytplot.data_quants['sin_ph_intpl']) + pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_y_intpl'] * (np.cos(gamma) * pytplot.data_quants['cos_th_intpl'] * pytplot.data_quants['sin_ph_intpl'] - np.sin(gamma) * pytplot.data_quants['cos_ph_intpl']) - pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_z_intpl'] * np.cos(gamma) * pytplot.data_quants['sin_th_intpl']
     B_MFA_y = pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_x_intpl'] * (np.sin(gamma) * pytplot.data_quants['cos_th_intpl'] * pytplot.data_quants['cos_ph_intpl'] - np.cos(gamma) * pytplot.data_quants['sin_ph_intpl']) + pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_y_intpl'] * (np.sin(gamma) * pytplot.data_quants['cos_th_intpl'] * pytplot.data_quants['sin_ph_intpl'] + np.cos(gamma) * pytplot.data_quants['cos_ph_intpl']) - pytplot.data_quants['erg_mgf_l2_mag_8sec_gsm_z_intpl'] * np.sin(gamma) * pytplot.data_quants['sin_th_intpl']
@@ -90,12 +92,13 @@ def compressional_B(tr):
 
     pytplot.store_data('delta_z', data={'x': pytplot.data_quants['sin_th_intpl']['time'], 'y': delta_B})
     pytplot.store_data('delta_xy', data={'x': pytplot.data_quants['sin_th_intpl']['time'], 'y': B_MFA_xy})
+    pytplot.store_data('B0', data={'x': pytplot.data_quants['sin_th_intpl']['time'], 'y': Bzero})
 
     pytplot.options('delta_xy', opt_dict={'legend_names': ['$B_x$', '$B_y$'], 'ytitle': '$B_x & B_y$', 'ysubtitle': '[nT]'})
     pytplot.options('delta_z', opt_dict={'legend_names': [r'$\delta B_z$'], 'ytitle': r'$\delta B_z$', 'ysubtitle': '[nT]'})
     pytplot.options('erg_mgf_l2_magt_8sec', opt_dict={'ytitle': r'$Btotal$', 'ysubtitle': '[nT]'})
 
-    return 'delta_z', 'delta_xy', 'erg_mgf_l2_magt_8sec'
+    return 'delta_z', 'delta_xy', 'erg_mgf_l2_magt_8sec','B0'
 
 def ULFwna(tr):
 

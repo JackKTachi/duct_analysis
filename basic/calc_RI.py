@@ -38,11 +38,9 @@ def calc_RI_2(N1, B1, f, Nrate, Brate):
     y = mu*np.cos(theta)
     return x,y
 
-def calc_RI_3(PoC):
-    B=100e-9
+def calc_RI_3(PoC, f, B):
     theta = np.linspace(-np.pi/2, np.pi/2, 500)
     fc = (pp.Q*B/pp.ME)/2/np.pi
-    f=0.2*fc
     mu = np.outer(PoC, (f*(fc**-2)*(fc*np.cos(theta)-f))**(-1/2)) 
     x = mu*np.sin(theta)
     y = mu*np.cos(theta)
