@@ -9,7 +9,9 @@ def calc_RI(N, B, f):
     mu = fp*(fc*f*(np.cos(theta)-(f/fc)))**(-1/2)
     return mu
 
-def calc_RI_plot(N, B, f):
+def calc_RI_plot(N, B, f, Nrate, Brate):
+    N = N*Nrate
+    B = B*Brate
     theta = np.linspace(-np.pi/2, np.pi/2, 4001)
     fc = (pp.Q*B/pp.ME)/2/np.pi
     fp = ((pp.Q**2*N)/(pp.EPS*pp.ME))**(1/2)/2/np.pi
@@ -26,7 +28,7 @@ def calc_RI_2(N1, B1, f, Nrate, Brate):
     theta = np.linspace(-np.pi/2, np.pi/2, 501)
     fc = (pp.Q*B1/pp.ME)/2/np.pi
     fp = ((pp.Q**2*N1)/(pp.EPS*pp.ME))**(1/2)/2/np.pi
-    mu = fp*(fc*f*(np.cos(theta)-(f/fc)))**(-1/2)
+    mu = fp*(f*(fc*np.cos(theta)-(f)))**(-1/2)
     x = mu*np.sin(theta)
     y = mu*np.cos(theta)
     return x,y

@@ -1,0 +1,120 @@
+import math
+
+# first input
+fq00 = 0.4
+rr00 = 6370.0*6
+th00 = 90.0
+ph00 = 0.0
+es00 = 0.0
+dl00 = -90.0  + 0
+ULFphase =  - math.pi/2.0
+
+
+RE = 6370.0  # Earth's mean radius in km
+
+# the setting of duct
+duct_centre = 6 * RE  # center
+sigma = 50   # Standard deviation of the Gaussian distribution
+variation_rate = -0.10
+
+
+ETA = [0.0, 0.152, 0.82, 0.025] # 電離層の電離率を示すパラメータらしい それぞれの粒子のかな？
+# RRLI: locatopm pf the lower edge of the ionosphere
+# HWLI: 電離層に関する何かしらの値　電離層の幅っぽいかなあ
+RRLI, HWLI = 6370.0+90.0, 140.0
+XN0 = 50000 # exosphere density 外気圏の初期密度　IWANEだと32000、4000がコメントアウトされていた
+XME      = 9.109534e-31 # 電子の質量
+XMP      = 1.6726485e-27 # プロトンの質量
+QE       = 1.6021892e-19 # 電気素量
+EP       = 8.854185e-12 # 真空の誘電率
+XK       = 1.380662e-23 # ボルツマン定数
+GM       = 3.98603e14 # 地球の重力定数　地球の質量をかけた重力定数
+RREF     = 7370.0
+THERM = 1000.0 # 電離圏の粒子運動を示す温度らしい　ケルビン単位っぽい
+SHINV1 = XMP*(GM/RREF**2)/XK/THERM*1e-3
+SHINV2 = XMP*(GM/RREF**2)/XK/THERM*1e-3*4.0
+SHINV3 = XMP*(GM/RREF**2)/XK/THERM*1e-3*16.0
+SHINV = [0.0 ,SHINV1, SHINV2, SHINV3] # (GM/RREF**2) 高度1000kmでの重力加速度 スケールハイトがkm単位で出るので逆数では1000で割っている
+SHINVP   = SHINV[2]
+GMDM = 8.07e6
+PAI = math.pi
+PF0 = [0.0] * 4 # それぞれの粒子のプラズマ周波数 0:電子 1:プロトン 2:アルファ粒子 3:ヘリウムイオン　角周波数
+PF0[0] = QE**2 / (4.0 * PAI**2 * EP * XME)
+PF0[1] = QE**2 / (4.0 * PAI**2 * EP * XMP)
+PF0[2] = QE**2 / (4.0 * PAI**2 * EP * (XMP * 4.0))
+PF0[3] = QE**2 / (4.0 * PAI**2 * EP * (XMP * 16.0))
+GF0 = [0.0] * 4 # 
+GF0[0] = -QE / (2.0 * PAI * XME) * 1.0e-3
+GF0[1] = QE / (2.0 * PAI * XMP) * 1.0e-3
+GF0[2] = QE / (2.0 * PAI * (XMP * 4.0)) * 1.0e-3
+GF0[3] = QE / (2.0 * PAI * (XMP * 16.0)) * 1.0e-3
+F0 = fq00
+R0 = rr00
+T0 = th00
+P0 = ph00
+E0 = es00
+D0 = dl00
+DEG = PAI/180
+EPS   = E0
+DEL   = D0
+FKC   = F0
+RAD = math.pi / 180.0
+Y = [0.0] * 8
+Y[0] = R0
+Y[1] = T0
+Y[2] = P0
+Y[3] = math.cos(EPS * RAD) * math.cos(DEL * RAD)
+Y[4] = math.cos(EPS * RAD) * math.sin(DEL * RAD)
+Y[5] = math.sin(EPS * RAD)
+Y[6] = 0.0
+Y[7] = 0.0
+CVLCTY   = 3.0e5
+# Constants
+
+
+# Following RRMAX & RRMIN: Upper & lower limit of ray tracing (in km)
+RRMAX = 7.0 * RE
+RRMIN = 6370.0
+
+# Following ERRR and ERRA: Initial values for the limiting error
+ERRR = 1.0e-5
+ERRA = 1.0e-5
+
+# HMIN: Limit of integration increment (in km)
+HMIN = 1.0e-10
+
+# DISOUT: Output data will be printed after every this count
+DISOUT = 50
+
+# Following NLPMAX: Maximum number of integration loops
+NLPMAX = 30000
+
+INDOUT = 20
+INDMSH = 51
+IEOF = -1
+L = 0
+LL = 0
+NN = 0
+NLOOP = 0
+
+# Calculate maximum of ERRR and ERRA
+ERR0 = max(ERRR, ERRA)
+
+# Normalize ERRR and ERRA with respect to ERR0
+ERRR = ERRR / ERR0
+ERRA = ERRA / ERR0
+RE       = 6370.0
+RREF     = 7370.0
+RREFP    = RREF
+RBTM     = 9370.0
+
+HWLI     = 140.0
+XLPP     = 4.0                      
+ERPP     = 0.2
+DRR1     = 5.0
+DTH1     = 0.05
+DPH1     = 0.2
+DRR2     = 2.5
+DTH2     = 0.01
+DPH2     = 0.1
+
