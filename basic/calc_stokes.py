@@ -71,13 +71,13 @@ def calc_stokes(download_trange, ptr):
     for i in range(len(data_x['time'])):
         bvec = [data_x[i], data_y[i], data_z[i]]
         zz = [0., 0., 1.]
-        
+
         xhat = bvec - np.dot(bvec, zz)
         yhat = np.cross(zz, xhat)
-        
+
         xhat = xhat / np.linalg.norm(xhat)
         yhat = yhat / np.linalg.norm(yhat)
-        
+
         rotmatE[:, :, i] = np.vstack((xhat[:2], yhat[:2]))
         rotmat_tE[:, :, i] = np.transpose(np.vstack((xhat[:2], yhat[:2])))
 
